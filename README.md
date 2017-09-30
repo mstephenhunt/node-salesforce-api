@@ -13,10 +13,72 @@ SELECT Name, Id FROM Account WHERE Id=$1
 ```
 With the `Id` coming from the user. The whole implementation looks like this:
 ```js
+const sf = require('./node-salesforce-api')
+
 const sfid = '1234567890'
 const queryStr = 'SELECT Id, Name FROM Account WHERE Id = $1'
 
 sf.sfConnection.query(queryStr, [sfid], function (error, accounts) {
+  // ...
+})
+```
+
+## `REST` Action Usage
+`REST` actions are similarlly easy to use -- this allows you to use `CRUD` to Create, Read, Update, or Destroy objects in Salesforce. This requires a `method` (`GET`, `POST`, `PATCH`, `DELETE`) and a `resourceType` (the name of the Salesforce Object) and optionally requires a `resourceId` and `body`.
+
+`CREATE`:
+```js
+const sf = require('./node-salesforce-api')
+
+sf.sfConnection.restAction({
+  method: 'POST',
+  resourceType: 'Account',
+  body: {
+    Name: 'aName'
+  }
+}, function (error, response) {
+  // ...
+})
+```
+
+`READ`:
+```js
+const sf = require('./node-salesforce-api')
+
+sf.sfConnection.restAction({
+  method: 'GET',
+  resourceType: 'Account',
+  resourceId: 'abc123'
+}, function (error, response) {
+  // ...
+})
+```
+
+`UPDATE`:
+```js
+const sf = require('./node-salesforce-api')
+
+sf.sfConnection.restAction({
+  method: 'PATCH',
+  resourceType: 'Account',
+  resourceId: 'abc123',
+  body: {
+    Name: 'newName'
+  }
+}, function (error, response) {
+  // ...
+})
+```
+
+`DESTROY`:
+```js
+const sf = require('./node-salesforce-api')
+
+sf.sfConnection.restAction({
+  method: 'DELETE',
+  resourceType: 'Account',
+  resourceId: 'abc123'
+}, function (error, response) {
   // ...
 })
 ```
