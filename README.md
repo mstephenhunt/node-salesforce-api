@@ -8,7 +8,7 @@ The `ensureConnected()` function that handles authentication between Node and Sa
 
 ## `SOQL` Query Usage
 This is a very simple integration to use. You simply provide the query you'd like to execute in your Salesforce database, along with any params. For example, if you're looking to pull a specific `Account`, you can execute this query:
-```
+```sql
 SELECT Name, Id FROM Account WHERE Id=$1
 ```
 With the `Id` coming from the user. The whole implementation looks like this:
